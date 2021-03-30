@@ -405,7 +405,7 @@ if __name__ == '__main__':
                            help="select traffic light manager (default: none)",
                            default='none')
     argparser.add_argument("--joining_method",
-                           default='back_joining',
+                           default='cut_in_joining',
                            type=str,
                            help='cut_in_joining, back_joining, or frontal_joining')
     argparser.add_argument('--debug', action='store_true', help='enable debug messages')

@@ -11,9 +11,10 @@ import numpy as np
 import pylab
 
 
-def draw_velocity_profile_single_plot(velocity_list, show=False):
+def draw_velocity_profile_single_plot(velocity_list, font_size=15, show=False):
     """
     Draw velocity profiles in a single plot
+    :param font_size:
     :param show:
     :param velocity_list:
     :return:
@@ -28,8 +29,10 @@ def draw_velocity_profile_single_plot(velocity_list, show=False):
 
     plt.ylim([10, 34])
 
-    plt.xlabel("Time (s)")
-    plt.ylabel("Speed (m/s)")
+    plt.ylabel("Speed (m/s)", size=16)
+    plt.xticks(size=font_size)
+    plt.yticks(size=font_size)
+
     fig = plt.gcf()
     fig.set_size_inches(11, 5)
 
@@ -38,9 +41,10 @@ def draw_velocity_profile_single_plot(velocity_list, show=False):
         plt.show()
 
 
-def draw_acceleration_profile_single_plot(acceleration, show=False):
+def draw_acceleration_profile_single_plot(acceleration, font_size=15, show=False):
     """
     Draw velocity profiles in a single plot
+    :param font_size:
     :param show:
     :param acceleration:
     :return:
@@ -55,8 +59,10 @@ def draw_acceleration_profile_single_plot(acceleration, show=False):
 
     plt.ylim([-8, 5])
 
-    plt.xlabel("Time (s)")
-    plt.ylabel("Acceleration (m^2/s)")
+    plt.ylabel("Acceleration (m^2/s)", size=16)
+    plt.xticks(size=font_size)
+    plt.yticks(size=font_size)
+
     fig = plt.gcf()
     fig.set_size_inches(11, 5)
 
@@ -65,7 +71,7 @@ def draw_acceleration_profile_single_plot(acceleration, show=False):
         plt.show()
 
 
-def draw_time_gap_profile_singel_plot(gap_list, show=False):
+def draw_time_gap_profile_singel_plot(gap_list, font_size=15, show=False):
     """
     Draw inter gap profiles in a single plot
     :param gap_list: time gap
@@ -83,8 +89,10 @@ def draw_time_gap_profile_singel_plot(gap_list, show=False):
         plt.plot(x_s, v)
         label.append('Leading Vehicle, id: %d' % i if i == 0 else 'Following Vehicle, id: %d' % i)
 
-    plt.xlabel("Time (s)")
-    plt.ylabel("Time Gap (s)")
+    plt.ylabel("Time Gap (s)", size=16)
+    plt.xticks(size=font_size)
+    plt.yticks(size=font_size)
+
     plt.ylim([0.0, 1.8])
     fig = plt.gcf()
     fig.set_size_inches(11, 5)
@@ -94,7 +102,7 @@ def draw_time_gap_profile_singel_plot(gap_list, show=False):
         plt.show()
 
 
-def draw_dist_gap_profile_singel_plot(gap_list, show=False):
+def draw_dist_gap_profile_singel_plot(gap_list, font_size=15, show=False):
     """
     Draw distance gap profiles in a single plot
     :param gap_list: time gap
@@ -112,8 +120,11 @@ def draw_dist_gap_profile_singel_plot(gap_list, show=False):
         plt.plot(x_s, v)
         label.append('Leading Vehicle, id: %d' % i if i == 0 else 'Following Vehicle, id: %d' % i)
 
-    plt.xlabel("Time (s)")
-    plt.ylabel("Distance Gap (m)")
+    plt.xlabel("Time (s)", size=16)
+    plt.ylabel("Distance Gap (m)", size=16)
+    plt.xticks(size=font_size)
+    plt.yticks(size=font_size)
+
     plt.ylim([5, 45])
     fig = plt.gcf()
     fig.set_size_inches(11, 5)
@@ -133,23 +144,25 @@ def draw_sub_plot(velocity_list, acceleration_list, time_gap_list, distance_gap_
     :return:
     """
     fig = plt.figure(figsize=[2200,1000])
+    font_size = 17
+
     plt.subplot(411)
-    draw_velocity_profile_single_plot(velocity_list)
+    draw_velocity_profile_single_plot(velocity_list, font_size)
 
     plt.subplot(412)
-    draw_acceleration_profile_single_plot(acceleration_list)
+    draw_acceleration_profile_single_plot(acceleration_list, font_size)
 
     plt.subplot(413)
-    draw_time_gap_profile_singel_plot(time_gap_list)
+    draw_time_gap_profile_singel_plot(time_gap_list, font_size)
 
     plt.subplot(414)
-    draw_dist_gap_profile_singel_plot(distance_gap_list)
+    draw_dist_gap_profile_singel_plot(distance_gap_list, font_size)
 
     label = []
     for i in range(1, len(velocity_list)+1):
         label.append('Leading Vehicle, id: %d' % int(i - 1) if i == 1 else 'Following Vehicle, id: %d' % int(i - 1))
 
-    fig.legend(label, loc='upper right')
+    fig.legend(label, loc='upper right', fontsize=16)
     plt.get_current_fig_manager().window.showMaximized()
 
     plt.show()
@@ -168,4 +181,4 @@ def dump_data(data):
 if __name__ == '__main__':
     velocity_list = [[23, 25, 25, 44, 66], [44, 55, 25, 22, 33]]
     ids = [23, 45]
-    draw_velocity_profile_single_plot(velocity_list, ids)
+    draw_sub_plot(velocity_list, velocity_list, velocity_list, velocity_list)

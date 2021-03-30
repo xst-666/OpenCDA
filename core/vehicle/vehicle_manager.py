@@ -111,8 +111,8 @@ class VehicleManager(object):
         Quantitive way to judge the peroformance of the system
         :return:
         """
-        time_gap_list = self.agent.time_gap_list[60:]
-        velocity_list = self.agent.velocity_list[60:]
+        time_gap_list = self.agent.time_gap_list[200:]
+        velocity_list = self.agent.velocity_list[200:]
 
         print(len(time_gap_list))
         print("the mean of the time gap is %f and std is %f" % (statistics.mean(time_gap_list),

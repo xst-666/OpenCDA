@@ -168,15 +168,15 @@ class PlatooningManager(object):
             self.vehicle_manager_list[i].vehicle.destroy()
             if len(self.vehicle_manager_list[i].agent.time_gap_list) > 0:
                 self.vehicle_manager_list[i].cal_performance()
-                start_index = 0 if len(self.vehicle_manager_list[i].agent.time_gap_list) < max_len else 100
+                start_index = 0 if len(self.vehicle_manager_list[i].agent.time_gap_list) < max_len else 200
 
                 time_gap_list.append(self.vehicle_manager_list[i].agent.time_gap_list[start_index:-10])
                 distance_gap_list.append(self.vehicle_manager_list[i].agent.distance_gap_list[start_index:-10])
             else:
-                time_gap_list.append((len(self.vehicle_manager_list[i].agent.velocity_list) - 100) * [200])
-                distance_gap_list.append((len(self.vehicle_manager_list[i].agent.velocity_list) - 100) * [200])
+                time_gap_list.append((len(self.vehicle_manager_list[i].agent.velocity_list) - 200) * [200])
+                distance_gap_list.append((len(self.vehicle_manager_list[i].agent.velocity_list) - 200) * [200])
 
-            velocity_list.append(self.vehicle_manager_list[i].agent.velocity_list[100:-10])
-            acceleration_list.append(self.vehicle_manager_list[i].agent.acceleration_list[100:-10])
+            velocity_list.append(self.vehicle_manager_list[i].agent.velocity_list[200:-10])
+            acceleration_list.append(self.vehicle_manager_list[i].agent.acceleration_list[200:-10])
 
         draw_sub_plot(velocity_list, acceleration_list, time_gap_list, distance_gap_list)

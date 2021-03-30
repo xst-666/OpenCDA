@@ -91,7 +91,8 @@ def main():
                                       carla.Rotation(pitch=0.000000, yaw=0, roll=0.000000))
         transform_4 = carla.Transform(carla.Location(x=-680.722836, y=7.500000, z=0.300000),
                                       carla.Rotation(pitch=0.000000, yaw=0, roll=0.000000))
-        transform_5 = transform_point
+        transform_5 = carla.Transform(carla.Location(x=-740.722836, y=7.500000, z=0.300000),
+                                      carla.Rotation(pitch=0.000000, yaw=0, roll=0.000000))
 
         ego_vehicle_bp = blueprint_library.find('vehicle.lincoln.mkz2017')
 
@@ -160,7 +161,7 @@ def main():
 
         vehicle_manager_5 = VehicleManager(vehicle_5, platooning_world, status=FSM.SEARCHING, sample_resolution=4.5,
                                            buffer_size=12, debug_trajectory=True, debug=True, update_freq=15,
-                                           overtake_allowed=True)
+                                           communication_range=35, overtake_allowed=True)
 
         platooning_manager = PlatooningManager(platooning_world)
 
