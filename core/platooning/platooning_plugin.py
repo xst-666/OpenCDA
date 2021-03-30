@@ -128,6 +128,9 @@ class PlatooningPlugin(object):
                 return False, 0, 0, None
             front_vehicle, rear_vehicle, best_idx = self.gfs_controller.getBestMergePosition(ego_vehicle,
                                                                                              platooning_object)
+            leader = platooning_object.vehicle_manager_list[0]
+            leader_spd = self.gfs_controller.getDesiredSpeed_m(leader.vehicle)
+
             self.front_vehicle = front_vehicle
             self.rear_vechile = rear_vehicle
 

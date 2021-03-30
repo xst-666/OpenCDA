@@ -21,7 +21,7 @@ from scenerios.customized_map_test.load_customized_world import load_customized_
 def arg_parse():
     parser = argparse.ArgumentParser(description="Platooning Joining Settings")
     parser.add_argument("--joining_method",
-                        default='frontal_joining', type=str, help='cut_in_joining, back_joining, or frontal_joining')
+                        default='cut_in_joining', type=str, help='cut_in_joining, back_joining, or frontal_joining')
     parser.add_argument("--bg_traffic", action='store_true', help='whether to create pre-defined background traffic')
 
     opt = parser.parse_args()
@@ -71,7 +71,7 @@ def main():
         elif opt.joining_method == 'frontal_joining':
             start_pos = 0.51
         elif opt.joining_method == 'cut_in_joining':
-            start_pos = 0.50
+            start_pos = 0.46
         else:
             print('only back_joining, frontal_joining, cut_in_joining are supported')
             sys.exit()
@@ -91,8 +91,7 @@ def main():
                                       carla.Rotation(pitch=0.000000, yaw=0, roll=0.000000))
         transform_4 = carla.Transform(carla.Location(x=-680.722836, y=7.500000, z=0.300000),
                                       carla.Rotation(pitch=0.000000, yaw=0, roll=0.000000))
-        transform_5 = carla.Transform(carla.Location(x=-740.722836, y=7.500000, z=0.300000),
-                                      carla.Rotation(pitch=0.000000, yaw=0, roll=0.000000))
+        transform_5 = transform_point
 
         ego_vehicle_bp = blueprint_library.find('vehicle.lincoln.mkz2017')
 

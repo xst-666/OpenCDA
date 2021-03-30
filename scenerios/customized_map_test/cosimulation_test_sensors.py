@@ -17,6 +17,8 @@ import sys
 import time
 
 import carla
+from queue import Queue
+from queue import Empty
 
 from co_simulation.sumo_integration.bridge_helper import BridgeHelper
 from co_simulation.sumo_integration.carla_simulation import CarlaSimulation
@@ -34,6 +36,14 @@ if 'SUMO_HOME' in os.environ:
     sys.path.append(os.path.join(os.environ['SUMO_HOME'], 'tools'))
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
+
+
+def sensor_callback(sensor_data, sensor_queue, sensor_name):
+    if 'lidar' in sensor_name:
+        sensor_data.save_to_disk(os.path.join('../../outputs', '%06d.ply' % sensor_data.frame))
+    if 'camera' in sensor_name:
+        sensor_data.save_to_disk(os.path.join('../../outputs', '%06d.png' % sensor_data.frame))
+    sensor_queue.put((sensor_data.frame, sensor_name))
 
 
 class SimulationSynchronization(object):
@@ -320,6 +330,36 @@ def synchronization_loop(args):
                                             transform_destination_2.location,
                                             clean=True)
     spectator = carla_simulation.world.get_spectator()
+
+    # create sensor queue
+    sensor_queue = Queue()
+    sensor_list = []
+
+    # add a camera
+    camera_bp = blueprint_library.find('sensor.camera.rgb')
+    # camera relative position related to the vehicle
+    camera_transform = carla.Transform(carla.Location(x=1.5, z=2.4))
+    camera = carla_simulation.world.spawn_actor(camera_bp, camera_transform, attach_to=vehicle_2)
+    # set the callback function
+    camera.listen(lambda image: sensor_callback(image, sensor_queue, "camera"))
+    sensor_list.append(camera)
+
+    # we also add a lidar on it
+    lidar_bp = blueprint_library.find('sensor.lidar.ray_cast')
+    lidar_bp.set_attribute('channels', str(32))
+    lidar_bp.set_attribute('points_per_second', str(90000))
+    lidar_bp.set_attribute('rotation_frequency', str(40))
+    lidar_bp.set_attribute('range', str(20))
+
+    # set the relative location
+    lidar_location = carla.Location(0, 0, 2)
+    lidar_rotation = carla.Rotation(0, 0, 0)
+    lidar_transform = carla.Transform(lidar_location, lidar_rotation)
+    # spawn the lidar
+    lidar = carla_simulation.world.spawn_actor(lidar_bp, lidar_transform, attach_to=vehicle_2)
+    lidar.listen(
+        lambda point_cloud: sensor_callback(point_cloud, sensor_queue, "lidar"))
+    sensor_list.append(lidar)
 
     try:
         time_tmp = 0
