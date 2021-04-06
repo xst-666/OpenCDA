@@ -165,9 +165,10 @@ class PlatooningManager(object):
                       len(self.vehicle_manager_list[-1].agent.time_gap_list))
 
         for i in range(len(self.vehicle_manager_list)):
+            self.vehicle_manager_list[i].cal_performance()
             self.vehicle_manager_list[i].vehicle.destroy()
+
             if len(self.vehicle_manager_list[i].agent.time_gap_list) > 0:
-                self.vehicle_manager_list[i].cal_performance()
                 start_index = 0 if len(self.vehicle_manager_list[i].agent.time_gap_list) < max_len else 200
 
                 time_gap_list.append(self.vehicle_manager_list[i].agent.time_gap_list[start_index:-10])

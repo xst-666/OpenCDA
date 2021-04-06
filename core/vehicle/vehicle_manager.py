@@ -111,14 +111,25 @@ class VehicleManager(object):
         Quantitive way to judge the peroformance of the system
         :return:
         """
-        time_gap_list = self.agent.time_gap_list[200:]
+        if len(self.agent.time_gap_list) > 0:
+            time_gap_list = self.agent.time_gap_list[200:]
         velocity_list = self.agent.velocity_list[200:]
+        if len(self.agent.ttc_list) > 0:
+            ttc_list = self.agent.ttc_list[200:]
+        acc_list = self.agent.acceleration_list[200:]
 
-        print(len(time_gap_list))
-        print("the mean of the time gap is %f and std is %f" % (statistics.mean(time_gap_list),
-                                                                statistics.stdev(time_gap_list)))
+        print("-------------------the vehicle id is :%d------------------------" % self.vehicle.id)
+        if len(self.agent.time_gap_list) > 0:
+            print("the mean of the time gap is %f and std is %f" % (statistics.mean(time_gap_list),
+                                                                    statistics.stdev(time_gap_list)))
         print("the mean of the velocity is %f and std is %f" % (statistics.mean(velocity_list),
                                                                 statistics.stdev(velocity_list)))
+        if len(self.agent.ttc_list) > 0:
+            print("the mean of the ttc is %f and std is %f" % (statistics.mean(ttc_list),
+                                                               statistics.stdev(ttc_list)))
+
+        print("the mean of the acc is %f and std is %f" % (statistics.mean(acc_list),
+                                                           statistics.stdev(acc_list)))
 
     def run_step(self, target_speed=None):
         """
@@ -129,7 +140,7 @@ class VehicleManager(object):
         self.agent.velocity_list.append(get_speed(self.vehicle, True))
         # acceleration list
         if len(self.agent.velocity_list) > 1:
-            self.agent.acceleration_list.append((self.agent.velocity_list[-1] - self.agent.velocity_list[-2])/0.05)
+            self.agent.acceleration_list.append((self.agent.velocity_list[-1] - self.agent.velocity_list[-2]) / 0.05)
         else:
             self.agent.acceleration_list.append(self.agent.velocity_list[-1] / 0.05)
 

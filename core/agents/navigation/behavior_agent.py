@@ -96,6 +96,7 @@ class BehaviorAgent(Agent):
 
         # this is only for co-simulation
         self.sumo2carla_dict = {}
+        self.ttc_list = []
 
         # Parameters for agent behavior
         if behavior == 'cautious':
@@ -305,8 +306,10 @@ class BehaviorAgent(Agent):
         else:
             vehicle_speed = get_speed(vehicle)
 
-        delta_v = max(1, (self.speed - vehicle_speed) / 3.6)
+        delta_v = max(0.5, (self.speed - vehicle_speed) / 3.6)
         ttc = distance / delta_v if delta_v != 0 else distance / np.nextafter(0., 1.)
+        self.ttc_list.append(ttc)
+
         # Under safety time distance, slow down.
         if self.behavior.safety_time > ttc > 0.0:
             target_speed = min(positive(vehicle_speed - self.behavior.speed_decrease),

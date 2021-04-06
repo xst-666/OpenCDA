@@ -58,10 +58,16 @@ class PlatooningBehaviorAgent(BehaviorAgent):
         boundingbox = self._vehicle.bounding_box
         veh_length = 2 * abs(boundingbox.location.y - boundingbox.extent.y)
 
-        delta_v = get_speed(self.vehicle, True)
-        time_gap = distance / delta_v
+        v = get_speed(self.vehicle, True)
+        time_gap = distance / v
+
+        front_speed = get_speed(self.frontal_vehicle.vehicle, True)
+        delta_v = max(0.5, v - front_speed)
+        ttc = distance / delta_v if delta_v != 0 else distance / np.nextafter(0., 1.)
+
         self.time_gap_list.append(time_gap)
         self.distance_gap_list.append(distance - veh_length)
+        self.ttc_list.append(ttc)
 
     def platooning_following_manager(self, inter_gap):
         """
