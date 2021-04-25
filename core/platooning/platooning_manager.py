@@ -38,6 +38,11 @@ class PlatooningManager(object):
         self.origin_leader_target_speed = 0
         self.recover_speed_counter = 0
 
+        # use to count time
+        self.time_count = 0
+        self.request_flag = 0
+        self.finish_flag = 0
+
         world.update_platooning(self)
 
     def set_lead(self, vehicle_manager):
@@ -74,6 +79,7 @@ class PlatooningManager(object):
         """
         self.vehicle_manager_list.insert(index, vehicle_manager)
         vehicle_manager.set_platooning(self, self.pmid, index, lead)
+        self.finish_flag = self.time_count
 
     def set_controller_longitudinal(self, max_throttle, max_brake):
         """
@@ -107,6 +113,8 @@ class PlatooningManager(object):
             # TODO: USE GFS Model to do this
             self.leader_target_speed = self.origin_leader_target_speed - 10
             self.recover_speed_counter = 200
+            self.request_flag = self.time_count
+
             return True
 
     def set_destination(self, destination):
@@ -139,6 +147,7 @@ class PlatooningManager(object):
         Run a step for each vehicles
         :return:
         """
+        self.time_count += 1
         control_list = []
         for i in range(len(self.vehicle_manager_list)):
             control = self.vehicle_manager_list[i].run_step(self.leader_target_speed)
@@ -165,7 +174,7 @@ class PlatooningManager(object):
                       len(self.vehicle_manager_list[-1].agent.time_gap_list))
 
         for i in range(len(self.vehicle_manager_list)):
-            self.vehicle_manager_list[i].cal_performance()
+            self.vehicle_manager_list[i].cal_performance(self.request_flag, self.finish_flag)
             self.vehicle_manager_list[i].vehicle.destroy()
 
             if len(self.vehicle_manager_list[i].agent.time_gap_list) > 0:

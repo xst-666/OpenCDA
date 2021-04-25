@@ -106,7 +106,7 @@ class VehicleManager(object):
         """
         self.agent.update_information(world, frontal_vehicle)
 
-    def cal_performance(self):
+    def cal_performance(self, start_time=0, finish_time=0):
         """
         Quantitive way to judge the peroformance of the system
         :return:
@@ -131,6 +131,11 @@ class VehicleManager(object):
         print("the mean of the acc is %f and std is %f" % (statistics.mean(acc_list),
                                                            statistics.stdev(acc_list)))
 
+        if start_time !=0:
+            acc_list = self.agent.acceleration_list[start_time:finish_time]
+            print("the mean of the acc during joining is %f and std is %f" % (statistics.mean(acc_list),
+                                                               statistics.stdev(acc_list)))
+
     def run_step(self, target_speed=None):
         """
         Execute one step of navigation based on platooning status
@@ -149,7 +154,7 @@ class VehicleManager(object):
             # if the ego-vehicle is still searching for platooning
             if self._platooning_plugin.status == FSM.SEARCHING:
                 platoon_searched, distance, min_index, platoon_manager = \
-                    self._platooning_plugin.platooning_search(self.vid, self.world, self.vehicle)
+                    self._platooning_plugin.platooning_search_gfs(self.vid, self.world, self.vehicle)
                 # if find platooning and platooning is close enough, we use cut-joining
                 if platoon_searched and self._platooning_plugin.front_vehicle \
                         and self._platooning_plugin.rear_vechile:

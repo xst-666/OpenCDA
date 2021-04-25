@@ -126,6 +126,9 @@ class PlatooningPlugin(object):
             _, _, platooning_object = vm.get_platooning_status()
             if platooning_object.pmid in self.platooning_black_list:
                 return False, 0, 0, None
+
+            if not platooning_object.response_joining_request():
+                return False, 0, 0, None
             front_vehicle, rear_vehicle, best_idx = self.gfs_controller.getBestMergePosition(ego_vehicle,
                                                                                              platooning_object)
             leader = platooning_object.vehicle_manager_list[0]
