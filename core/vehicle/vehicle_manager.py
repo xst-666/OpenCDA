@@ -112,10 +112,16 @@ class VehicleManager(object):
         :return:
         """
         if len(self.agent.time_gap_list) > 0:
-            time_gap_list = self.agent.time_gap_list[200:]
+            time_gap_list = self.agent.time_gap_list
+            if len(time_gap_list) > 200:
+                time_gap_list = time_gap_list[200:]
+
         velocity_list = self.agent.velocity_list[200:]
         if len(self.agent.ttc_list) > 0:
-            ttc_list = self.agent.ttc_list[200:]
+            ttc_list = self.agent.ttc_list
+            if len(ttc_list) > 200:
+                ttc_list = ttc_list[200:]
+
         acc_list = self.agent.acceleration_list[200:]
 
         print("-------------------the vehicle id is :%d------------------------" % self.vehicle.id)
@@ -154,7 +160,7 @@ class VehicleManager(object):
             # if the ego-vehicle is still searching for platooning
             if self._platooning_plugin.status == FSM.SEARCHING:
                 platoon_searched, distance, min_index, platoon_manager = \
-                    self._platooning_plugin.platooning_search_gfs(self.vid, self.world, self.vehicle)
+                    self._platooning_plugin.platooning_search(self.vid, self.world, self.vehicle)
                 # if find platooning and platooning is close enough, we use cut-joining
                 if platoon_searched and self._platooning_plugin.front_vehicle \
                         and self._platooning_plugin.rear_vechile:

@@ -441,7 +441,8 @@ class PlatooningBehaviorAgent(BehaviorAgent):
 
         distance, angle = cal_distance_angle(rear_vehicle.get_location(),
                                              ego_vehicle_loc, ego_vehicle_yaw)
-
+        rear_vehicle_vm.agent.calculate_gap(distance)
+        # self.calculate_gap(distance)
         # if there is a vehicle blocking between, then abandon this joining
         vehicle_list = self._world.get_actors().filter("*vehicle*")
 
