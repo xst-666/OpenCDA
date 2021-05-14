@@ -3,10 +3,10 @@
     <SignalConfigurations/>
     <Signalization>
         <Junction>
-            <ID>{71f2b1f2-ce54-4d55-b4f1-9fd327b4bca1}</ID>
+            <ID>{cd041872-20d9-408d-a89a-9fb0f150a077}</ID>
         </Junction>
         <Junction>
-            <ID>{3409fa27-f266-4640-877d-a6f3b2c8ca72}</ID>
+            <ID>{0e67a790-f878-4697-b7bd-f2f8b57168e2}</ID>
         </Junction>
     </Signalization>
     <MaterialList>
@@ -77,6 +77,26 @@
             <SpecularMap>LaneMarking1_Spec.png</SpecularMap>
             <AmbientColor>1.000000,1.000000,1.000000</AmbientColor>
             <DiffuseColor>1.000000,1.000000,1.000000</DiffuseColor>
+            <SpecularColor>0.196078,0.196078,0.196078</SpecularColor>
+            <Roughness>0.100000</Roughness>
+            <SpecularFactor>1.000000</SpecularFactor>
+            <TransparencyFactor>0.000000</TransparencyFactor>
+            <Emission>0.000000</Emission>
+            <TextureScaleU>0.25</TextureScaleU>
+            <TextureScaleV>0.25</TextureScaleV>
+            <TwoSided>false</TwoSided>
+            <DrawQueue>0</DrawQueue>
+            <ShadowCaster>true</ShadowCaster>
+            <IsDecal>false</IsDecal>
+            <SegmentationType>Marking</SegmentationType>
+        </Material>
+        <Material>
+            <Name>LaneMarkingYellow1_Marking</Name>
+            <DiffuseMap>LaneMarking1_Diff.png</DiffuseMap>
+            <NormalMap>LaneMarking1_Norm.png</NormalMap>
+            <SpecularMap>LaneMarking1_Spec.png</SpecularMap>
+            <AmbientColor>1.000000,0.835294,0.000000</AmbientColor>
+            <DiffuseColor>1.000000,0.835294,0.000000</DiffuseColor>
             <SpecularColor>0.196078,0.196078,0.196078</SpecularColor>
             <Roughness>0.100000</Roughness>
             <SpecularFactor>1.000000</SpecularFactor>
