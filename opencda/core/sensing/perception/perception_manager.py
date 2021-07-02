@@ -204,13 +204,6 @@ class PerceptionManager(object):
     """
 
     def __init__(self, vehicle, config_yaml, ml_manager):
-        """
-        Construct class.
-        Args:
-            vehicle (carla.Actor): The carla vehicle.
-            config_yaml (dict):  The configuration yaml dictionary.
-            ml_manager(MlManager): Machine learning manager from CAV World.
-        """
         self.vehicle = vehicle
 
         self.activate = config_yaml['activate']
